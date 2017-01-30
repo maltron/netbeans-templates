@@ -1,0 +1,104 @@
+<#assign licenseFirst = "/*">
+<#assign licensePrefix = " * ">
+<#assign licenseLast = " */">
+<#include "${project.licensePath}">
+
+<#if package?? && package != "">
+package ${package};
+
+</#if>
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.Serializable;
+import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+/**
+ *
+ * @author Mauricio "Maltron" Leal <maltron at gmail dot com> */
+public class ${name} extends JFrame implements Serializable, ActionListener, KeyListener {
+
+    private static final Logger LOG = Logger.getLogger(${name}.class.getName());
+    
+    private JButton buttonExit;
+    
+    public static void main(String[] args) {
+        ${name} app = new ${name}();
+    }
+    
+    public ${name}() {
+        super("${name}");
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setContentPane(createPanel());
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                closeApplication();
+            }
+        });
+        setSize(800, 600);
+        setVisible(true);
+    }
+    
+    private JPanel createPanel() {
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        GridBagLayout layout = new GridBagLayout();
+        mainPanel.setLayout(layout);
+        
+        buttonExit = new JButton("Exit");
+        buttonExit.addActionListener(this);
+        buttonExit.addKeyListener(this);
+        buttonExit.requestFocus();
+        
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.gridx = 0; gc.gridy = 0; gc.gridwidth = 1; gc.gridheight = 1;
+        gc.anchor = GridBagConstraints.SOUTHEAST; gc.fill = GridBagConstraints.NONE;
+        gc.weightx = 1.0; gc.weighty = 1.0;
+        layout.setConstraints(buttonExit, gc);
+        mainPanel.add(buttonExit);
+        
+        return mainPanel;
+    }
+    
+    private void closeApplication() {
+        setVisible(false);
+        System.exit(0);
+    }
+    
+    // ACTION LISTENER ACTION LISTENER ACTION LISTENER ACTION LISTENER ACTION LISTENER 
+    //  ACTION LISTENER ACTION LISTENER ACTION LISTENER ACTION LISTENER ACTION LISTENER 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == buttonExit) {
+            closeApplication();
+        }
+    }
+
+    // KEY LISTENER KEY LISTENER KEY LISTENER KEY LISTENER KEY LISTENER KEY LISTENER 
+    //  KEY LISTENER KEY LISTENER KEY LISTENER KEY LISTENER KEY LISTENER KEY LISTENER 
+    @Override
+    public void keyPressed(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent event) {
+        if (event.getKeyChar() == KeyEvent.VK_ESCAPE) {
+            closeApplication();
+        }
+    }
+}
