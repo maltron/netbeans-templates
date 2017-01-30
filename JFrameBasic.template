@@ -7,6 +7,7 @@
 package ${package};
 
 </#if>
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -51,23 +52,33 @@ public class ${name} extends JFrame implements Serializable, ActionListener, Key
     }
     
     private JPanel createPanel() {
-        JPanel mainPanel = new JPanel();
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        GridBagLayout layout = new GridBagLayout();
-        mainPanel.setLayout(layout);
-        
         buttonExit = new JButton("Exit");
         buttonExit.addActionListener(this);
         buttonExit.addKeyListener(this);
         buttonExit.requestFocus();
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+
+            // SOUTH
+            JPanel panelExit = new JPanel();
+            GridBagLayout layoutExit = new GridBagLayout();
+            panelExit.setLayout(layoutExit);
+            GridBagConstraints gcExit = new GridBagConstraints();
+            gcExit.gridx = 0; gcExit.gridy = 0; gcExit.gridwidth = 1; gcExit.gridheight = 1;
+            gcExit.anchor = GridBagConstraints.SOUTHEAST; gcExit.fill = GridBagConstraints.NONE;
+            gcExit.weightx = 1.0; gcExit.weighty = 1.0;
+            layoutExit.setConstraints(buttonExit, gcExit); panelExit.add(buttonExit);
+        mainPanel.add(panelExit, BorderLayout.SOUTH);
         
-        GridBagConstraints gc = new GridBagConstraints();
-        gc.gridx = 0; gc.gridy = 0; gc.gridwidth = 1; gc.gridheight = 1;
-        gc.anchor = GridBagConstraints.SOUTHEAST; gc.fill = GridBagConstraints.NONE;
-        gc.weightx = 1.0; gc.weighty = 1.0;
-        layout.setConstraints(buttonExit, gc);
-        mainPanel.add(buttonExit);
-        
+            // NORTH
+            JPanel panelLogin = new JPanel();
+            GridBagLayout layout = new GridBagLayout();
+            panelLogin.setLayout(layout);
+            GridBagConstraints gc = new GridBagConstraints();
+            
+        mainPanel.add(panelLogin, BorderLayout.NORTH);
+                            
         return mainPanel;
     }
     
